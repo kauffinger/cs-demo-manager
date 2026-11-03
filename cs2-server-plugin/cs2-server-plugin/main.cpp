@@ -415,6 +415,9 @@ void AssertInsecureParameterIsPresent() {
     }
 
     if (!found) {
+        // Connect, which restores gameinfo.gi, is never reached from here. Restore it now, otherwise every later
+        // start of the game, from Steam too, would load the plugin again and abort.
+        RestoreGameinfoFile();
         PluginError("Plugin loaded without the -insecure launch option.");
     }
 }
@@ -481,9 +484,10 @@ EXPORT void* CreateInterface(const char* pName, int* pReturnCode) {
 
     Log("CreateInterface called with %s", pName);
     if (serverCreateInterface == NULL) {
+        // Set first, AssertInsecureParameterIsPresent needs it to restore gameinfo.gi.
+        gameDirectory = Plat_GetGameDirectory();
         AssertInsecureParameterIsPresent();
 
-        gameDirectory = Plat_GetGameDirectory();
         string libPath = gameDirectory + SERVER_LIB_PATH;
 
         void* serverModule = LoadLib(libPath.c_str());

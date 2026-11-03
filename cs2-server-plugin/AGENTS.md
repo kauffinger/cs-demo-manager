@@ -212,9 +212,9 @@ SearchPaths
 
 ### Uninstallation
 
-The plugin restores `gameinfo.gi` from the backup itself when the game starts, so a crash or a game started outside the
-app doesn't leave the search path behind. The app also restores the file and deletes the plugin folder when the game
-closes.
+The plugin restores `gameinfo.gi` from the backup itself when the game starts, also when it aborts because `-insecure`
+is missing, so a crash or a game started outside the app doesn't leave the search path behind. The app also restores
+the file and deletes the plugin folder when the game closes.
 
 ## Logging
 
